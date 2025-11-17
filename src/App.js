@@ -1,24 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { ThemeProvider, CssBaseline, Container, Box, Typography } from '@mui/material';
+import { PomodoroProvider } from './context/PomodoroContext';
+import { theme } from './styles/theme';
+import Dashboard from './pages/Dashboard';
+import Timer from './pages/Timer';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <PomodoroProvider>
+        <Box
+          sx={{
+            minHeight: '100vh',
+            bgcolor: 'background.default',
+            py: 5,
+          }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <Container maxWidth="xl">
+            <Box sx={{ textAlign: 'center', mb: 6 }}>
+              <Typography variant="h3" sx={{ fontWeight: 600, mb: 1 }}>
+                🎲 Cubo Pomodoro
+              </Typography>
+              <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+                Mockups de Interface para Sistema Embarcado
+              </Typography>
+            </Box>
+
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+              <Dashboard />
+              <Timer />
+            </Box>
+          </Container>
+        </Box>
+      </PomodoroProvider>
+    </ThemeProvider>
   );
 }
 
