@@ -44,7 +44,8 @@ http://localhost:3000
 ## 👥 Autores
 
 - Gabriel Caetano Farias - [GitHub](https://github.com/caetrias)
-
+- Lizandra Vieira
+- André Fonseca
 
 ## 🙏 Agradecimentos
 
