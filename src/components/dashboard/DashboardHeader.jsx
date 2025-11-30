@@ -10,7 +10,8 @@ const DashboardHeader = ({ userName, date, todayMinutes }) => {
         alignItems: 'center',
         mb: 4,
         pb: 3,
-        borderBottom: '1px solid #e5e5e7',
+        borderBottom: 1,
+        borderColor: 'divider',
         flexWrap: 'wrap',
         gap: 2,
       }}
@@ -19,7 +20,7 @@ const DashboardHeader = ({ userName, date, todayMinutes }) => {
         <Typography variant="h5" sx={{ fontWeight: 600, mb: 0.5 }}>
           Olá, {userName} 👋
         </Typography>
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+        <Typography variant="body2" color="text.secondary">
           {date}
         </Typography>
       </Box>
@@ -30,7 +31,7 @@ const DashboardHeader = ({ userName, date, todayMinutes }) => {
           color: 'white',
           fontWeight: 500,
           px: 2,
-          py: 2.5,
+          height: 40,
         }}
       />
     </Box>

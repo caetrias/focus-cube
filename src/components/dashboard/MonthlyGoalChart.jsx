@@ -4,7 +4,7 @@ import { EmojiEvents } from '@mui/icons-material';
 
 const MonthlyGoalChart = ({ progress }) => {
   return (
-    <Card elevation={0} sx={{ borderRadius: 3, height: '100%' }}>
+    <Card sx={{ height: '100%' }}>
       <CardContent>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
           <EmojiEvents sx={{ color: 'primary.main' }} />
@@ -48,7 +48,7 @@ const MonthlyGoalChart = ({ progress }) => {
               <Typography variant="h4" sx={{ fontWeight: 600 }}>
                 {progress}%
               </Typography>
-              <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+              <Typography variant="caption" color="text.secondary">
                 Completo
               </Typography>
             </Box>

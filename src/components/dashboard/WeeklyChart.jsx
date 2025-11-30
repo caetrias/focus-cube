@@ -4,7 +4,7 @@ import { Timeline } from '@mui/icons-material';
 
 const WeeklyChart = ({ data }) => {
   return (
-    <Card elevation={0} sx={{ borderRadius: 3, height: '100%' }}>
+    <Card>
       <CardContent>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
           <Timeline sx={{ color: 'primary.main' }} />
@@ -45,7 +45,7 @@ const WeeklyChart = ({ data }) => {
                   },
                 }}
               />
-              <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+              <Typography variant="caption" color="text.secondary">
                 {item.day}
               </Typography>
             </Box>

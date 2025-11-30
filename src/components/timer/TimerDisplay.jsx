@@ -2,6 +2,10 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 
 const TimerDisplay = ({ minutes, seconds, mode }) => {
+  const formatTime = (min, sec) => {
+    return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+  };
+
   const getModeLabel = () => {
     const labels = {
       focus: 'Foco Intenso',
@@ -27,9 +31,8 @@ const TimerDisplay = ({ minutes, seconds, mode }) => {
         {getModeLabel()}
       </Typography>
       <Typography
-        variant="h1"
         sx={{
-          fontSize: { xs: '80px', md: '120px' },
+          fontSize: { xs: '5rem', md: '7.5rem' },
           fontWeight: 300,
           color: 'white',
           letterSpacing: '10px',
@@ -37,7 +40,7 @@ const TimerDisplay = ({ minutes, seconds, mode }) => {
           textShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
         }}
       >
-        {minutes}:{seconds}
+        {formatTime(minutes, seconds)}
       </Typography>
       <Typography
         variant="h6"

@@ -1,15 +1,10 @@
 import React from 'react';
-import { Card, CardContent, Typography, Box } from '@mui/material';
+import { Card, CardContent, Typography } from '@mui/material';
 
-const StatCard = ({ label, value, unit, icon }) => {
+const StatCard = ({ label, value, unit }) => {
   return (
-    <Card elevation={0} sx={{ borderRadius: 3 }}>
+    <Card>
       <CardContent>
-        {icon && (
-          <Box sx={{ mb: 2, color: 'primary.main' }}>
-            {icon}
-          </Box>
-        )}
         <Typography
           variant="caption"
           sx={{
