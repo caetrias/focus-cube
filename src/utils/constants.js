@@ -21,3 +21,21 @@ export const TIMER_MODES = [
     color: '#43e97b'
   },
 ];
+
+// API Base URL
+export const API_BASE_URL = 'http://127.0.0.1:5000';
+
+// Mapeamento de dias da semana (inglês -> português)
+export const DAY_TRANSLATION = {
+  'Sunday': 'Dom',
+  'Monday': 'Seg',
+  'Tuesday': 'Ter',
+  'Wednesday': 'Qua',
+  'Thursday': 'Qui',
+  'Friday': 'Sex',
+  'Saturday': 'Sáb',
+};
+
+// Ordem correta dos dias da semana
+export const DAY_ORDER = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+

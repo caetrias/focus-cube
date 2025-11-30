@@ -2,7 +2,9 @@ import React from 'react';
 import { Card, CardContent, Typography, Box } from '@mui/material';
 import { EmojiEvents } from '@mui/icons-material';
 
-const MonthlyGoalChart = ({ progress }) => {
+const MonthlyGoalChart = ({ monthlyProgress, monthlyGoal }) => {
+  const progress = monthlyGoal > 0 ? Math.min(100, Math.round((monthlyProgress / monthlyGoal) * 100)) : 0;
+  
   return (
     <Card sx={{ height: '100%' }}>
       <CardContent>

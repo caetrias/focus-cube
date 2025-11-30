@@ -3,8 +3,12 @@ import { Card, CardContent, Typography, Box, LinearProgress, Alert } from '@mui/
 import { TrendingUp } from '@mui/icons-material';
 
 const GoalsSection = ({ stats }) => {
-  const weeklyProgress = (stats.weekMinutes / stats.weeklyGoal) * 100;
-  const monthlyProgress = (stats.monthlyProgress / stats.monthlyGoal) * 100;
+  const weeklyProgress = stats.weeklyGoal > 0 ? (stats.weekMinutes / stats.weeklyGoal) * 100 : 0;
+  const monthlyProgress = stats.monthlyGoal > 0 ? (stats.monthlyProgress / stats.monthlyGoal) * 100 : 0;
+  
+  const weeklyRemaining = Math.max(0, stats.weeklyGoal - stats.weekMinutes);
+  const weeklyPercentage = Math.min(100, Math.round(weeklyProgress));
+  const monthlyPercentage = Math.min(100, Math.round(monthlyProgress));
 
   return (
     <Card>
@@ -27,7 +31,7 @@ const GoalsSection = ({ stats }) => {
           </Box>
           <LinearProgress
             variant="determinate"
-            value={weeklyProgress}
+            value={weeklyPercentage}
             sx={{
               height: 8,
               borderRadius: 4,
@@ -38,9 +42,16 @@ const GoalsSection = ({ stats }) => {
               },
             }}
           />
-          <Alert severity="info" sx={{ mt: 2 }}>
-            💪 Ótimo ritmo! Faltam apenas 180 minutos para sua meta.
-          </Alert>
+          {weeklyPercentage < 100 && weeklyRemaining > 0 && (
+            <Alert severity="info" sx={{ mt: 2 }}>
+              💪 Ótimo ritmo! Faltam apenas {weeklyRemaining} minutos para sua meta.
+            </Alert>
+          )}
+          {weeklyPercentage >= 100 && (
+            <Alert severity="success" sx={{ mt: 2 }}>
+              🎉 Parabéns! Você atingiu sua meta semanal!
+            </Alert>
+          )}
         </Box>
 
         <Box>
@@ -54,7 +65,7 @@ const GoalsSection = ({ stats }) => {
           </Box>
           <LinearProgress
             variant="determinate"
-            value={monthlyProgress}
+            value={monthlyPercentage}
             sx={{
               height: 8,
               borderRadius: 4,
@@ -65,6 +76,11 @@ const GoalsSection = ({ stats }) => {
               },
             }}
           />
+          {monthlyPercentage >= 100 && (
+            <Alert severity="success" sx={{ mt: 2 }}>
+              🎉 Parabéns! Você atingiu sua meta mensal!
+            </Alert>
+          )}
         </Box>
       </CardContent>
     </Card>
