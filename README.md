@@ -11,8 +11,8 @@ Interface web para acompanhamento e visualização de dados do Cubo Pomodoro fí
 
 1. Clone o repositório:
 ```bash
-git clone <seu-repositorio>
-cd cubo-pomodoro-web
+git clone https://github.com/caetrias/focus-cube
+cd focus-cube/src
 ```
 
 2. Instale as dependências:
