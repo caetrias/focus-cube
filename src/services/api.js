@@ -72,7 +72,7 @@ export const fetchWeekData = async () => {
 // Buscar dados do mês
 export const fetchMonthData = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/mês`);
+    const response = await fetch(`${API_BASE_URL}/mes`);
     if (!response.ok) throw new Error('Erro ao buscar dados do mês');
     const data = await response.json();
     return {
