@@ -1,145 +1,156 @@
 import React from 'react';
-import { Card, CardContent, Typography, Box, Tooltip } from '@mui/material';
+import { Card, CardContent, Typography, Box } from '@mui/material';
 import { Timeline } from '@mui/icons-material';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+
+// Registrar componentes do Chart.js
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const WeeklyChart = ({ data }) => {
-  // Calcular o valor máximo para escala do gráfico
-  const maxValue = Math.max(...data.map(item => item.value), 1);
-  
-  // Definir uma altura base mínima para valores muito baixos
-  const MIN_VISIBLE_HEIGHT = 5; // 5% de altura mínima para valores > 0
-  
+  // Extrair labels (dias) e valores (minutos)
+  const labels = data.map(item => item.day);
+  const values = data.map(item => item.value);
+
+  // Configuração dos dados do gráfico
+  const chartData = {
+    labels: labels,
+    datasets: [
+      {
+        label: 'Minutos de Foco',
+        data: values,
+        backgroundColor: 'rgba(255, 107, 107, 0.8)',
+        borderColor: 'rgba(238, 90, 111, 1)',
+        borderWidth: 2,
+        borderRadius: 8,
+        borderSkipped: false,
+      },
+    ],
+  };
+
+  // Configuração das opções do gráfico
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        padding: 12,
+        titleFont: {
+          size: 14,
+          weight: 'bold',
+        },
+        bodyFont: {
+          size: 13,
+        },
+        callbacks: {
+          label: function(context) {
+            return `${context.parsed.y} minutos`;
+          },
+        },
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          callback: function(value) {
+            return value + ' min';
+          },
+          font: {
+            size: 11,
+          },
+          color: '#86868b',
+        },
+        grid: {
+          color: 'rgba(0, 0, 0, 0.05)',
+          drawBorder: false,
+        },
+      },
+      x: {
+        ticks: {
+          font: {
+            size: 12,
+            weight: '500',
+          },
+          color: '#1d1d1f',
+        },
+        grid: {
+          display: false,
+        },
+      },
+    },
+  };
+
   return (
     <Card>
       <CardContent>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Timeline sx={{ color: 'primary.main' }} />
-            <Typography variant="h6" sx={{ fontWeight: 600 }}>
-              Tempo de Foco por Dia
-            </Typography>
-          </Box>
-          <Typography variant="caption" color="text.secondary">
-            Máx: {maxValue} min
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
+          <Timeline sx={{ color: 'primary.main' }} />
+          <Typography variant="h6" sx={{ fontWeight: 600 }}>
+            Tempo de Foco por Dia
           </Typography>
-        </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'flex-end',
-            justifyContent: 'space-between',
-            height: 180,
-            gap: 1,
-          }}
-        >
-          {data.map((item, index) => {
-            // Calcular altura proporcional
-            let heightPercent = 0;
-            if (item.value > 0 && maxValue > 0) {
-              heightPercent = (item.value / maxValue) * 100;
-              // Garantir altura mínima visível
-              heightPercent = Math.max(heightPercent, MIN_VISIBLE_HEIGHT);
-            }
-            
-            return (
-              <Box
-                key={index}
-                sx={{
-                  flex: 1,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: 1,
-                }}
-              >
-                <Tooltip 
-                  title={
-                    <Box>
-                      <Typography variant="caption" display="block">
-                        {item.day}
-                      </Typography>
-                      <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                        {item.value} minutos
-                      </Typography>
-                    </Box>
-                  } 
-                  arrow
-                  placement="top"
-                >
-                  <Box
-                    sx={{
-                      width: '100%',
-                      height: `${heightPercent}%`,
-                      background: item.value > 0 
-                        ? 'linear-gradient(180deg, #ff6b6b, #ee5a6f)' 
-                        : 'transparent',
-                      border: item.value === 0 ? '2px dashed rgba(0,0,0,0.1)' : 'none',
-                      borderRadius: item.value > 0 ? '6px 6px 0 0' : '6px',
-                      transition: 'all 0.3s',
-                      cursor: 'pointer',
-                      position: 'relative',
-                      '&:hover': {
-                        opacity: 0.8,
-                        transform: item.value > 0 ? 'scaleY(1.05)' : 'none',
-                      },
-                      // Label de valor dentro da barra (se houver espaço)
-                      '&::after': item.value > 30 ? {
-                        content: `"${item.value}"`,
-                        position: 'absolute',
-                        top: '8px',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        color: 'white',
-                        fontSize: '10px',
-                        fontWeight: 600,
-                        textShadow: '0 1px 2px rgba(0,0,0,0.3)',
-                      } : {},
-                    }}
-                  />
-                </Tooltip>
-                <Typography 
-                  variant="caption" 
-                  color="text.secondary"
-                  sx={{ fontWeight: item.value > 0 ? 600 : 400 }}
-                >
-                  {item.day}
-                </Typography>
-                {/* Mostrar valor abaixo se a barra for muito pequena */}
-                {item.value > 0 && item.value <= 30 && (
-                  <Typography 
-                    variant="caption" 
-                    sx={{ 
-                      fontSize: '9px',
-                      color: 'primary.main',
-                      fontWeight: 600 
-                    }}
-                  >
-                    {item.value}m
-                  </Typography>
-                )}
-              </Box>
-            );
-          })}
         </Box>
         
-        {/* Legenda de escala */}
-        <Box sx={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          mt: 2, 
-          pt: 2, 
-          borderTop: 1,
-          borderColor: 'divider' 
-        }}>
-          <Typography variant="caption" color="text.secondary">
-            0 min
-          </Typography>
-          <Typography variant="caption" color="text.secondary">
-            {Math.round(maxValue / 2)} min
-          </Typography>
-          <Typography variant="caption" color="text.secondary">
-            {maxValue} min
-          </Typography>
+        <Box sx={{ height: 240, position: 'relative' }}>
+          <Bar data={chartData} options={options} />
+        </Box>
+        
+        {/* Estatísticas rápidas */}
+        <Box 
+          sx={{ 
+            display: 'flex', 
+            justifyContent: 'space-around',
+            mt: 3,
+            pt: 2,
+            borderTop: 1,
+            borderColor: 'divider',
+          }}
+        >
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography variant="caption" color="text.secondary" display="block">
+              Total Semanal
+            </Typography>
+            <Typography variant="h6" sx={{ fontWeight: 600, color: 'primary.main' }}>
+              {values.reduce((a, b) => a + b, 0)} min
+            </Typography>
+          </Box>
+          
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography variant="caption" color="text.secondary" display="block">
+              Média Diária
+            </Typography>
+            <Typography variant="h6" sx={{ fontWeight: 600 }}>
+              {Math.round(values.reduce((a, b) => a + b, 0) / values.length)} min
+            </Typography>
+          </Box>
+          
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography variant="caption" color="text.secondary" display="block">
+              Melhor Dia
+            </Typography>
+            <Typography variant="h6" sx={{ fontWeight: 600, color: 'success.main' }}>
+              {Math.max(...values)} min
+            </Typography>
+          </Box>
         </Box>
       </CardContent>
     </Card>
